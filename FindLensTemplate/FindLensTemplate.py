@@ -4,12 +4,27 @@ from astropy.io import fits
 
 
 class FindLensTemplate():
+    """
+    This class is a quick method to find lens template in other waveband fits files.
+    """
 
     def __int__(self, target_path):
+        """
+        :param target_path: The directory saves the lens fits files
+        :return:
+        """
 
         self.image_path_list = target_path
 
     def MethodMathch(self, image_path, temp, method=TM_CCOEFF_NORMED, isMax=True):
+        """
+        A simple template matching gravitational lens
+        :param image_path: the image path
+        :param temp:
+        :param method:
+        :param isMax:
+        :return:
+        """
 
         # open the image fits file
         image_file = fits.open(image_path)
