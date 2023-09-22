@@ -1,5 +1,6 @@
 import numpy as np
 import cv2 as cv
+import os
 from astropy.io import fits
 
 
@@ -32,37 +33,23 @@ class FindLensTemplate():
         else:
             return min_loc
 
-    def MethodMathch(self, image_path, temp, method=cv.TM_CCOEFF_NORMED, isMax=True):
+    def MulFileMatch(self, image_dir, temp_name="Template.fits", *args, **kwargs):
 
-        """
-        A simple template matching gravitational lens
-        :param image_path: the image path
-        :param temp:
-        :param method:
-        :param isMax:
-        :return:
-        """
+        temp_path = os.path.join(image_dir, temp_name)
 
-        # open the image fits file
-        image_file = fits.open(image_path)
-        image = image_file[0].data
-        img = image.copy()
+        position_list = []
 
-        # Apply template Matching
-        if isinstance(temp, str):
-            temp = fits.open(temp)[0].data
-            res = cv.matchTemplate(img, temp, method=method)
+        for file_name in os.listdir(image_dir):
 
-        elif isinstance(temp, np.ndarray):
+            if file_name != temp_name:
 
-            res = cv.matchTemplate(img, temp, method=method)
+                file_path = os.path.join(image_dir, file_name)
 
-        min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
+                position = self.MulFileMatch(file_path, temp_path, kwargs)
 
-        if isMax:
-            return max_loc
-        else:
-            return min_loc
+                position_list.append(position)
+
+        return np.array(position_list)
 
     def MulMethodMatch(self, image, temp, methods=None, isMax=True):
 
