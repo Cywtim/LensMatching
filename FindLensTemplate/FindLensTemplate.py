@@ -1,5 +1,5 @@
 import numpy as np
-from cv2 import matchTemplate, TM_CCOEFF_NORMED
+import cv2 as cv
 from astropy.io import fits
 
 
@@ -9,7 +9,7 @@ class FindLensTemplate():
 
         self.image_path_list = target_path
 
-    def MethodMathch(self, image_path, temp, method=TM_CCOEFF_NORMED, isMax=True):
+    def MethodMathch(self, image_path, temp, method=cv.TM_CCOEFF_NORMED, isMax=True):
 
         # open the image fits file
         image_file = fits.open(image_path)
@@ -19,42 +19,68 @@ class FindLensTemplate():
         # Apply template Matching
         if isinstance(temp, str):
             temp = fits.open(temp)[0].data
-            res = matchTemplate(img, temp, method=method)
+            res = cv.matchTemplate(img, temp, method=method)
 
         elif isinstance(temp, np.ndarray):
 
-            res = matchTemplate(img, temp, method=method)
+            res = cv.matchTemplate(img, temp, method=method)
 
-        min_val, max_val, min_loc, max_loc = minMaxLoc(res)
+        min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
 
         if isMax:
             return max_loc
         else:
             return min_loc
 
-    def MulFileMatch(self, image_list_path):
+    def MethodMathch(self, image_path, temp, method=cv.TM_CCOEFF_NORMED, isMax=True):
 
-        for file_path in
+        """
+        A simple template matching gravitational lens
+        :param image_path: the image path
+        :param temp:
+        :param method:
+        :param isMax:
+        :return:
+        """
 
-        return 0
+        # open the image fits file
+        image_file = fits.open(image_path)
+        image = image_file[0].data
+        img = image.copy()
+
+        # Apply template Matching
+        if isinstance(temp, str):
+            temp = fits.open(temp)[0].data
+            res = cv.matchTemplate(img, temp, method=method)
+
+        elif isinstance(temp, np.ndarray):
+
+            res = cv.matchTemplate(img, temp, method=method)
+
+        min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
+
+        if isMax:
+            return max_loc
+        else:
+            return min_loc
 
     def MulMethodMatch(self, image, temp, methods=None, isMax=True):
 
         if methods is None:
-            methods = [TM_CCOEFF_NORMED]
+            methods = [cv.TM_CCOEFF_NORMED]
 
         res_ms = []
 
         img = image.copy()
 
         for method in methods:
-            res_m = matchTemplate(img, temp, method=method)
+            res_m = cv.matchTemplate(img, temp, method=method)
 
             res_ms.append(res_m)
 
         res_ms = np.array(res_ms)
 
-        min_val, max_val, min_loc, max_loc = minMaxLoc(res_ms)
+        min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res_ms)
 
         if isMax:
             return max_loc
