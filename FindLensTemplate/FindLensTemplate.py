@@ -12,6 +12,15 @@ class FindLensTemplate():
 
     def MethodMathch(self, image_path, temp, method=cv.TM_CCOEFF_NORMED, isMax=True):
 
+        """
+
+        :param image_path:
+        :param temp:
+        :param method:
+        :param isMax:
+        :return:
+        """
+
         # open the image fits file
         image_file = fits.open(image_path)
         image = image_file[0].data
@@ -34,6 +43,14 @@ class FindLensTemplate():
             return min_loc
 
     def MulFileMatch(self, image_dir, temp_name="Template.fits", *args, **kwargs):
+        """
+
+        :param image_dir:
+        :param temp_name:
+        :param args:
+        :param kwargs:
+        :return:
+        """
 
         temp_path = os.path.join(image_dir, temp_name)
 
@@ -52,6 +69,14 @@ class FindLensTemplate():
         return np.array(position_list)
 
     def MulMethodMatch(self, image, temp, methods=None, isMax=True):
+        """
+
+        :param image:
+        :param temp:
+        :param methods:
+        :param isMax:
+        :return:
+        """
 
         if methods is None:
             methods = [cv.TM_CCOEFF_NORMED]
