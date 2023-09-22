@@ -14,7 +14,7 @@ class FindLensTemplate():
 
         """
 
-        :param image_path:
+        :param image_path: str,
         :param temp:
         :param method:
         :param isMax:
@@ -62,7 +62,7 @@ class FindLensTemplate():
 
                 file_path = os.path.join(image_dir, file_name)
 
-                position = self.MulFileMatch(file_path, temp_path, kwargs)
+                position = self.MethodMatch(file_path, temp_path, kwargs)
 
                 position_list.append(position)
 
