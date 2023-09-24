@@ -14,11 +14,11 @@ class FindLensTemplate:
         """
         This module is to find similar patterns between different band of same lensing fields
         :param image_dir: str, the directory of image lists
-        :param temp_name: str or ndarray, the name of template or template image in the same directory of images
+        :param temp_name: str, the name of template or template image in the same directory of images
         :param matchTemplate: callable, matching function
         :param method: None, the parameters of function
-        :param isMax: Bool, output the maximum or minimum result of matching, default is Trur
-        :param scale: str, mathematical functions from numpy to rescale the images.
+        :param isMax: Bool, output the maximum or minimum result of matching, default is True
+        :param rescale: str, mathematical functions from numpy to rescale the images.
         """
         self.image_dir = image_dir
         self.temp_name = temp_name
@@ -35,19 +35,17 @@ class FindLensTemplate:
             try:
                 self.rescaler = eval("np." + self.rescale)
             except:
-                self.print("scale is not a numpy function.")
+                print("scale is not a numpy function.")
 
 
 
     def MethodMatch(self, image_path, temp):
 
         """
-
-        :param image_path: str,
-        :param temp:
-        :param method:
-        :param isMax:
-        :return:
+        Find the most similar temp pattern in single image
+        :param image_path: str, the path of target image
+        :param temp: str or ndarray, the name of template image, if ndarray, it is the image of template
+        :return: ndarray, the most likely position in the image
         """
 
         # open the image fits file and rescale/normalize the image
@@ -58,7 +56,7 @@ class FindLensTemplate:
         image = self.rescaler(image)    # rescale the image
         image_min = image.min()
         image_max = image.max()
-        image = (image - image_min) / (image_max - image_min) * 255
+        image = (image - image_min) / (image_max - image_min) * 255 #
         img = image.copy()
 
         # Apply template Matching
