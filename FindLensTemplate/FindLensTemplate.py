@@ -7,15 +7,15 @@ from astropy.io import fits
 
 class FindLensTemplate:
 
-    def __init__(self, image_dir, temp_name,matchTemplate=cv.matchTemplate,method=cv.TM_CCOEFF_NORMED, isMax=True, scale="log"):
+    def __init__(self, image_dir, temp_name, matchTemplate=cv.matchTemplate,method=cv.TM_CCOEFF_NORMED, isMax=True, scale="log"):
         """
         This module is to find similar patterns between different band of same lensing pictures
-        :param image_dir:
-        :param temp_name:
-        :param matchTemplate:
-        :param method:
-        :param isMax:
-        :param scale:
+        :param image_dir: str, the directory of image lists
+        :param temp_name: str or ndarray, the name of template or template image in the same directory of images
+        :param matchTemplate: callable, matching function
+        :param method: None, the parameters of function
+        :param isMax: Bool, output the maximum or minimum of matching point, default is Trur
+        :param scale: str, the rescale function in numpy
         """
         self.image_dir = image_dir
         self.temp_name = temp_name
@@ -48,11 +48,11 @@ class FindLensTemplate:
         """
 
         # open the image fits file and rescale/normalize the image
-        image_file = fits.open(image_path)
-        image = image_file[0].data
+        image_file = fits.open(image_path)   # open fits file
+        image = image_file[0].data      # load fits data
         image_min = image.min()
-        image = image - image_min * (1 - np.sign(image_min) * 0.001)
-        image = self.scaler(image)
+        image = image - image_min * (1 - np.sign(image_min) * 0.001)    # parallel the image values
+        image = self.scaler(image)    # rescale the image
         image_min = image.min()
         image_max = image.max()
         image = (image - image_min) / (image_max - image_min) * 255
