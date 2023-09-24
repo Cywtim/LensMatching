@@ -7,30 +7,33 @@ from astropy.io import fits
 
 class FindLensTemplate:
 
-    def __init__(self, image_dir, temp_name, matchTemplate=cv.matchTemplate,method=cv.TM_CCOEFF_NORMED, isMax=True, scale="log"):
+    def __init__(self, image_dir, temp_name,
+                 matchTemplate=cv.matchTemplate,
+                 method=cv.TM_CCOEFF_NORMED,
+                 isMax=True, rescale="log"):
         """
-        This module is to find similar patterns between different band of same lensing pictures
+        This module is to find similar patterns between different band of same lensing fields
         :param image_dir: str, the directory of image lists
         :param temp_name: str or ndarray, the name of template or template image in the same directory of images
         :param matchTemplate: callable, matching function
         :param method: None, the parameters of function
-        :param isMax: Bool, output the maximum or minimum of matching point, default is Trur
-        :param scale: str, the rescale function in numpy
+        :param isMax: Bool, output the maximum or minimum result of matching, default is Trur
+        :param scale: str, mathematical functions from numpy to rescale the images
         """
         self.image_dir = image_dir
         self.temp_name = temp_name
         self.method = method
         self.isMax = isMax
-        self.scale = scale
+        self.rescale = rescale
         self.matchTemplate = matchTemplate
 
-        if scale == "linear":
-            self.scaler = eval("np.array")
-        elif scale == "power":
-            self.scaler = eval("np.square")
+        if rescale == "linear":
+            self.rescaler = eval("np.array")
+        elif rescale == "power":
+            self.rescaler = eval("np.square")
         else:
             try:
-                self.scaler = eval("np." + scale)
+                self.rescaler = eval("np." + self.rescale)
             except:
                 self.print("scale is not a numpy function.")
 
@@ -52,7 +55,7 @@ class FindLensTemplate:
         image = image_file[0].data      # load fits data
         image_min = image.min()
         image = image - image_min * (1 - np.sign(image_min) * 0.001)    # parallel the image values
-        image = self.scaler(image)    # rescale the image
+        image = self.rescaler(image)    # rescale the image
         image_min = image.min()
         image_max = image.max()
         image = (image - image_min) / (image_max - image_min) * 255
@@ -65,7 +68,7 @@ class FindLensTemplate:
 
         elif isinstance(temp, np.ndarray):
 
-            res = cv.matchTemplate(img, temp, method=self.method)
+            res = self.matchTemplate(img, temp, method=self.method)
 
         min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
 
