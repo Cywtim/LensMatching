@@ -8,7 +8,15 @@ from astropy.io import fits
 class FindLensTemplate:
 
     def __init__(self, image_dir, temp_name,matchTemplate=cv.matchTemplate,method=cv.TM_CCOEFF_NORMED, isMax=True, scale="log"):
-
+        """
+        This module is to find similar patterns between different band of same lensing pictures
+        :param image_dir:
+        :param temp_name:
+        :param matchTemplate:
+        :param method:
+        :param isMax:
+        :param scale:
+        """
         self.image_dir = image_dir
         self.temp_name = temp_name
         self.method = method
