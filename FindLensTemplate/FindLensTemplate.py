@@ -59,7 +59,7 @@ class FindLensTemplate:
         image = (image - image_min) / (image_max - image_min) * 255 #
         img = image.copy()
 
-        # Apply template Matching
+        # checking the type of template and matching the image
         if isinstance(temp, str):
             template = fits.open(temp)[0].data
             res = self.matchTemplate(img, template, method=self.method)
@@ -68,6 +68,7 @@ class FindLensTemplate:
 
             res = self.matchTemplate(img, temp, method=self.method)
 
+        # extract the minimum and maximum piont of residual image
         min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
 
         if self.isMax:
