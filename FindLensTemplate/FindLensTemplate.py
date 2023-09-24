@@ -18,7 +18,7 @@ class FindLensTemplate:
         :param matchTemplate: callable, matching function
         :param method: None, the parameters of function
         :param isMax: Bool, output the maximum or minimum result of matching, default is Trur
-        :param scale: str, mathematical functions from numpy to rescale the images
+        :param scale: str, mathematical functions from numpy to rescale the images.
         """
         self.image_dir = image_dir
         self.temp_name = temp_name
