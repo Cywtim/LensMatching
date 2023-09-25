@@ -40,7 +40,7 @@ coadd_DESJ2125_6504_find = FindLensTemplate("dataset/coadd_DESJ2125-6504", "Temp
 """
 Use the MulFilMathch to obtain the most likely position of the same pattern as Template.
 """
-position = coadd_DESJ2125_6504_find.MulFileMatch()
+position = coadd_DESJ2125_6504_find.MulFileMatch(progress=10)
 
 """
 Print the most likely position in turns.
