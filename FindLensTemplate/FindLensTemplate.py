@@ -112,7 +112,7 @@ class FindLensTemplate:
         template = fits.open(self.temp_path)[0].data
         template = template.astype(self.ndtype)
 
-        position_dict = { }
+        position_dict = {}
 
         file_list = os.listdir(self.image_dir)
         file_list = self.SelectFiles(file_list)
@@ -127,7 +127,7 @@ class FindLensTemplate:
 
                 position = self.MethodMatch(file_path, template)
 
-                position_dict[file_path] = position
+                position_dict[file_list[file_n]] = position
 
                 sys.stdout.write('\r')
                 # the exact output you're looking for:
@@ -144,7 +144,7 @@ class FindLensTemplate:
 
                     position = self.MethodMatch(file_path, template)
 
-                    position_dict[file_path] = position
+                    position_dict[file_list[file_n]] = position
         else:
             print("Progress only accepts an integer.")
 
