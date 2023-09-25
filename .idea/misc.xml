@@ -5,5 +5,5 @@
     <option name="pathToExecutable" value="$USER_HOME$/Apps/Anaconda/anaconda3/bin/black" />
     <option name="sdkUUID" value="ee158336-a15f-44f8-99f9-fbfe2c9aa642" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (opencv_env)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="FindLensTemplate" project-jdk-type="Python SDK" />
 </project>
