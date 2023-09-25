@@ -8,7 +8,7 @@ from astropy.io import fits
 
 class FindLensTemplate:
 
-    def __init__(self, image_dir, temp_name,
+    def __init__(self, image_dir, image_prefix, temp_path,
                  matchTemplate=cv.matchTemplate,
                  method=cv.TM_CCOEFF_NORMED,
                  isMax=True, rescale="log",
@@ -23,7 +23,8 @@ class FindLensTemplate:
         :param rescale: str, mathematical functions from numpy to rescale the images.
         """
         self.image_dir = image_dir
-        self.temp_name = temp_name
+        self.image_prefix = image_prefix
+        self.temp_path = temp_path
         self.method = method
         self.isMax = isMax
         self.rescale = rescale
@@ -53,7 +54,7 @@ class FindLensTemplate:
 
         # open the image fits file and rescale/normalize the image
         image_file = fits.open(image_path)   # open fits file
-        image = (image_file[0].data).astype(self.ndtype)      # load fits data
+        image = image_file[0].data      # load fits data
         image_min = image.min()
         image = image - image_min * (1 - np.sign(image_min) * 0.001)    # parallel the image values
         image = self.rescaler(image)    # rescale the image
@@ -79,6 +80,24 @@ class FindLensTemplate:
         else:
             return min_loc
 
+    def SelectFiles(self, prefix=2, seperator="_"):
+
+        selected_file_list = []
+        for file in os.listdir(self.image_dir):
+            file_split = file.split(".")
+            file_split = file_split[0]
+            file_split = file_split.split(seperator)
+            try:
+                file_split.pop(prefix)
+                select_file_name = seperator.join(file_split)
+
+                if select_file_name == self.image_prefix:
+                    selected_file_list.append(file)
+            except:
+                pass
+
+        return selected_file_list
+
     def MulFileMatch(self, progress=10):
         """
 
@@ -89,30 +108,31 @@ class FindLensTemplate:
         :return:
         """
 
-        temp_path = os.path.join(self.image_dir, self.temp_name)
-        template = fits.open(temp_path)[0].data
+
+        template = fits.open(self.temp_path)[0].data
         template = template.astype(self.ndtype)
 
         position_list = []
-        file_list = os.listdir(self.image_dir)
+        file_list = self.SelectFiles()
         dir_len = len(file_list)
 
         if progress!=0:
             for file_n in range(dir_len):
+
                 file_name = file_list[file_n]
-                if (file_name != self.temp_name):
 
-                    file_path = os.path.join(self.image_dir, file_name)
+                file_path = os.path.join(self.image_dir, file_name)
 
-                    position = self.MethodMatch(file_path, template)
+                position = self.MethodMatch(file_path, template)
 
-                    position_list.append(position)
+                position_list.append(position)
 
-                    sys.stdout.write('\r')
-                    # the exact output you're looking for:
-                    sys.stdout.write(("[%-"+str(progress)+"s] %d%% %d/%d") % ('='*file_n*progress, file_n/(dir_len-1)*100, file_n, dir_len-1))
-                    sys.stdout.write('\n')
-                    sys.stdout.flush()
+                sys.stdout.write('\r')
+                # the exact output you're looking for:
+                sys.stdout.write(("[%-"+str(dir_len*progress)+"s] %d%% %d/%d") % ('='*(file_n+1)*progress, (file_n+1)/(dir_len)*100, file_n+1, dir_len))
+                sys.stdout.write('\n')
+                sys.stdout.flush()
+
         elif progress == 0:
             for file_n in range(dir_len):
                 file_name = file_list[file_n]

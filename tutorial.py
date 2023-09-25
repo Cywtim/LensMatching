@@ -34,7 +34,9 @@ Initialize the FindLensTemplate class
 The image directory is "dataset/coadd_DESJ2125-6504"
 THe name of template is "Template.fits"
 """
-coadd_DESJ2125_6504_find = FindLensTemplate("dataset/coadd_DESJ2125-6504", "Template.fits")
+coadd_DESJ2125_6504_find = FindLensTemplate("dataset/coadd_DESJ2125-6504",
+                                            "coadd_DESJ2125-6504",
+                                            "dataset/Template/coadd_DESJ2125-6504_template.fits")
 #%%
 
 """
