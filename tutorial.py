@@ -7,7 +7,6 @@ from matplotlib import pyplot as plt
 from FindLensTemplate.FindLensTemplate import FindLensTemplate
 
 """
-#%% raw
 It requires a file structure like:
 LensMatching/
     |
@@ -15,9 +14,11 @@ LensMatching/
     |
     ----dataset/
             |
+            |---Template/
+            |      |
+            |      |----Template.fits
+            |
             ----coadd_DESJ2125-6504/
-                    |
-                    ----Template.fits
                     |
                     ----coadd_DESJ2125-6504_g.fits
                     |
