@@ -19,13 +19,13 @@ LensMatching/
             |      |
             |      |---coadd_DESJ2125-6504_Template.fits
             |
-            ----coadd_DESJ2125-6504/
-                    |
-                    ----coadd_DESJ2125-6504_g.fits
-                    |
-                    ----coadd_DESJ2125-6504_r.fits
-                    |
-                    ----coadd_DESJ2125-6504_i.fits
+            ----data4/
+                  |
+                  |----coadd_DESJ2125-6504_g.fits
+                  |
+                  |----coadd_DESJ2125-6504_r.fits
+                  |
+                  |----coadd_DESJ2125-6504_i.fits
 """
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
