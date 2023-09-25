@@ -112,7 +112,7 @@ class FindLensTemplate:
         template = fits.open(self.temp_path)[0].data
         template = template.astype(self.ndtype)
 
-        position_dict = {}
+        position_dict = { }
 
         file_list = os.listdir(self.image_dir)
         file_list = self.SelectFiles(file_list)
