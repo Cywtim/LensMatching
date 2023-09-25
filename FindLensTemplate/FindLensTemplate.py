@@ -10,7 +10,8 @@ class FindLensTemplate:
     def __init__(self, image_dir, temp_name,
                  matchTemplate=cv.matchTemplate,
                  method=cv.TM_CCOEFF_NORMED,
-                 isMax=True, rescale="log"):
+                 isMax=True, rescale="log",
+                 ndtype="float32"):
         """
         This module is to find similar patterns between different band of same lensing fields
         :param image_dir: str, the directory of image lists
@@ -26,6 +27,7 @@ class FindLensTemplate:
         self.isMax = isMax
         self.rescale = rescale
         self.matchTemplate = matchTemplate
+        self.ndtype = ndtype
 
         if rescale == "linear":
             self.rescaler = eval("np.array")
@@ -50,7 +52,7 @@ class FindLensTemplate:
 
         # open the image fits file and rescale/normalize the image
         image_file = fits.open(image_path)   # open fits file
-        image = image_file[0].data      # load fits data
+        image = (image_file[0].data).astype(self.ndtype)      # load fits data
         image_min = image.min()
         image = image - image_min * (1 - np.sign(image_min) * 0.001)    # parallel the image values
         image = self.rescaler(image)    # rescale the image
@@ -88,6 +90,7 @@ class FindLensTemplate:
 
         temp_path = os.path.join(self.image_dir, self.temp_name)
         template = fits.open(temp_path)[0].data
+        template = template.astype(self.ndtype)
 
         position_list = []
 
