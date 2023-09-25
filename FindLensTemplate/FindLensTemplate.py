@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2 as cv
 import os
+import sys
 from astropy.io import fits
 
 
@@ -78,7 +79,7 @@ class FindLensTemplate:
         else:
             return min_loc
 
-    def MulFileMatch(self):
+    def MulFileMatch(self, progress=True):
         """
 
         :param image_dir:
@@ -93,16 +94,36 @@ class FindLensTemplate:
         template = template.astype(self.ndtype)
 
         position_list = []
+        file_list = os.listdir(self.image_dir)
+        dir_len = len(file_list)
 
-        for file_name in os.listdir(self.image_dir):
-            if file_name != self.temp_name:
+        if progress==True:
+            for file_n in range(dir_len):
+                file_name = file_list[file_n]
+                if (file_name != self.temp_name):
 
-                file_path = os.path.join(self.image_dir, file_name)
-                print(file_path)
+                    file_path = os.path.join(self.image_dir, file_name)
 
-                position = self.MethodMatch(file_path, template)
+                    position = self.MethodMatch(file_path, template)
 
-                position_list.append(position)
+                    position_list.append(position)
+
+                    sys.stdout.write('\r')
+                    # the exact output you're looking for:
+                    sys.stdout.write("[%-1s] %d%% %d/%d" % ('='*file_n, file_n/(dir_len-1)*100, file_n, dir_len-1))
+                    sys.stdout.write('\n')
+                    sys.stdout.flush()
+        else:
+            for file_n in range(dir_len):
+                file_name = file_list[file_n]
+                if (file_name != self.temp_name):
+                    file_path = os.path.join(self.image_dir, file_name)
+
+                    position = self.MethodMatch(file_path, template)
+
+                    position_list.append(position)
+
+
 
         return np.array(position_list)
 
