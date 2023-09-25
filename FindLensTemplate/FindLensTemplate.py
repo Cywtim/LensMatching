@@ -80,10 +80,10 @@ class FindLensTemplate:
         else:
             return min_loc
 
-    def SelectFiles(self, prefix=2, seperator="_"):
+    def SelectFiles(self, file_list, prefix=2, seperator="_"):
 
         selected_file_list = []
-        for file in os.listdir(self.image_dir):
+        for file in file_list:
             file_split = file.split(".")
             file_split = file_split[0]
             file_split = file_split.split(seperator)
@@ -113,7 +113,9 @@ class FindLensTemplate:
         template = template.astype(self.ndtype)
 
         position_list = []
-        file_list = self.SelectFiles()
+
+        file_list = os.listdir(self.image_dir)
+        file_list = self.SelectFiles(file_list)
         dir_len = len(file_list)
 
         if progress!=0:
@@ -143,7 +145,7 @@ class FindLensTemplate:
 
                     position_list.append(position)
         else:
-            print("Progress only can accept an integer.")
+            print("Progress only accepts an integer.")
 
 
 
