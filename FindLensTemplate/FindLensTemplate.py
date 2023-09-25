@@ -79,7 +79,7 @@ class FindLensTemplate:
         else:
             return min_loc
 
-    def MulFileMatch(self, progress=True):
+    def MulFileMatch(self, progress=10):
         """
 
         :param image_dir:
@@ -97,7 +97,7 @@ class FindLensTemplate:
         file_list = os.listdir(self.image_dir)
         dir_len = len(file_list)
 
-        if progress==True:
+        if progress!=0:
             for file_n in range(dir_len):
                 file_name = file_list[file_n]
                 if (file_name != self.temp_name):
@@ -110,10 +110,10 @@ class FindLensTemplate:
 
                     sys.stdout.write('\r')
                     # the exact output you're looking for:
-                    sys.stdout.write("[%-1s] %d%% %d/%d" % ('='*file_n, file_n/(dir_len-1)*100, file_n, dir_len-1))
+                    sys.stdout.write(("[%-"+str(progress)+"s] %d%% %d/%d") % ('='*file_n*progress, file_n/(dir_len-1)*100, file_n, dir_len-1))
                     sys.stdout.write('\n')
                     sys.stdout.flush()
-        else:
+        elif progress == 0:
             for file_n in range(dir_len):
                 file_name = file_list[file_n]
                 if (file_name != self.temp_name):
@@ -122,6 +122,8 @@ class FindLensTemplate:
                     position = self.MethodMatch(file_path, template)
 
                     position_list.append(position)
+        else:
+            print("Progress only can accept an integer.")
 
 
 
