@@ -131,7 +131,8 @@ class FindLensTemplate:
 
                 sys.stdout.write('\r')
                 # the exact output you're looking for:
-                sys.stdout.write(("[%-"+str(dir_len*progress)+"s] %d%% %d/%d") % ('='*(file_n+1)*progress, (file_n+1)/(dir_len)*100, file_n+1, dir_len))
+                sys.stdout.write(("[%-"+str(dir_len*progress)+"s] %d%% %d/%d")\
+                                 % ('='*(file_n+1)*progress, (file_n+1)/(dir_len)*100, file_n+1, dir_len))
                 sys.stdout.write('\n')
                 sys.stdout.flush()
 
