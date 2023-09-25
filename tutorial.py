@@ -6,6 +6,7 @@ from astropy import units,constants
 from matplotlib import pyplot as plt
 from FindLensTemplate.FindLensTemplate import FindLensTemplate
 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 """
 It requires a file structure like:
 LensMatching/
@@ -16,7 +17,7 @@ LensMatching/
             |
             |---Template/
             |      |
-            |      |----Template.fits
+            |      |---coadd_DESJ2125-6504_Template.fits
             |
             ----coadd_DESJ2125-6504/
                     |
@@ -27,9 +28,7 @@ LensMatching/
                     ----coadd_DESJ2125-6504_i.fits
 """
 
-
-
-#%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 """
 Initialize the FindLensTemplate class
 The image directory is "dataset/coadd_DESJ2125-6504"
@@ -38,12 +37,12 @@ THe name of template is "Template.fits"
 coadd_DESJ2125_6504_find = FindLensTemplate("dataset/coadd_DESJ2125-6504",
                                             "coadd_DESJ2125-6504",
                                             "dataset/Template/coadd_DESJ2125-6504_template.fits")
-#%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 """
 Use the MulFilMathch to obtain the most likely position of the same pattern as Template.
 """
-position = coadd_DESJ2125_6504_find.MulFileMatch(progress=10)
+position = coadd_DESJ2125_6504_find.MulFileMatch()
 
 """
 Print the most likely position in turns.
