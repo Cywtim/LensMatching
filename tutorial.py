@@ -61,3 +61,13 @@ Visual = VisualTemp("dataset/data",
                       w=50, h=50,
                       ncols=2,nrows=2,
                       figsize=(10,10))
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+"""
+Use ShowSubPlots function to 
+"""
+Visual.ShowSubplots()
+"""
+Plot the full field image and scatter the matching position.
+"""
+Visual.ShowPosition()
