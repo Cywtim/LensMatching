@@ -30,14 +30,17 @@ class VisualTemp:
 
         for r in range(self.nrows):
             for c in range(self.ncols):
-                image = fits.open(os.path.join(self.data_dir,
-                            file_name_list[r+c]))
-                image = image[0].data
-                position = position_list[r+c]
-                img = ax[r, c].imshow(image[position[1]:position[1]+self.w,
-                                position[0]:position[0]+self.h], cmap=cmap)
-                plt.title(file_name_list[r+c])
-                fig.colorbar(img)
+                try:
+                    image = fits.open(os.path.join(self.data_dir,
+                                file_name_list[c+self.ncols*r]))
+                    image = image[0].data
+                    position = position_list[c+self.ncols*r]
+                    img = ax[r, c].imshow(image[position[1]:position[1]+self.w,
+                                    position[0]:position[0]+self.h], cmap=cmap)
+                    ax[r, c].set_title(file_name_list[c+self.ncols*r])
+                    fig.colorbar(img)
+                except:
+                    pass
         fig.show()
 
         return fig, ax
