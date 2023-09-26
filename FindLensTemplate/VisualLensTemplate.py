@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 from FindLensTemplate import FindLensTemplate
 
 class VisualTemp:
-    def __init__(self, data_dir, position_dict, w, h, ncols, nrows, figsize=(8, 6), **kwargs):
+    def __init__(self, data_dir, position_dict, ncols, nrows, w=50, h=50, figsize=(8, 6), **kwargs):
 
         self.data_dir = data_dir
         self.position_dict = position_dict
@@ -16,30 +16,30 @@ class VisualTemp:
         self.ncols = ncols
         self.nrows = nrows
         self.figsize = figsize
-        self.fig, self.ax = plt.subplots(nrows, ncols, figsize, **kwargs)
 
         if self.len > (self.ncols*self.nrows):
             print("The lens of position dictionary is out of range of subplots.")
             exit()
 
-    def __iter__(self):
-        for sub in (self.fig, self.ax):
-            yield sub
-
     def ShowSubplots(self, cmap="rainbow", dotcolor="red"):
 
         file_name_list = list(self.position_dict)
-        psotion_list = list(self.position_dict.values())
+        position_list = list(self.position_dict.values())
+
+        fig, ax = plt.subplots(self.nrows, self.ncols, figsize=self.figsize)
 
         for r in range(self.nrows):
             for c in range(self.ncols):
                 image = fits.open(os.path.join(self.data_dir,
                             file_name_list[r+c]))
-                img = self.ax[r, c].imshow(image, cmap=cmap)
-                self.ax.scatter(psotion_list[r+c], color=dotcolor)
+                image = image[0].data
+                position = position_list[r+c]
+                img = ax[r, c].imshow(image[position[1]:position[1]+self.w,
+                                position[0]:position[0]+self.h], cmap=cmap)
                 plt.title(file_name_list[r+c])
-                self.fig.colorbar(img)
-        plt.show()
+                fig.colorbar(img)
+        fig.show()
 
+        return fig, ax
 
 
