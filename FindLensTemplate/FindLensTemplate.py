@@ -21,6 +21,7 @@ class FindLensTemplate:
         :param method: None, the parameters of function
         :param isMax: Bool, output the maximum or minimum result of matching, default is True
         :param rescale: str, mathematical functions from numpy to rescale the images.
+        :param ndtype: str, the dtype of image and template
         """
         self.image_dir = image_dir
         self.image_prefix = image_prefix
@@ -55,6 +56,7 @@ class FindLensTemplate:
         # open the image fits file and rescale/normalize the image
         image_file = fits.open(image_path)   # open fits file
         image = image_file[0].data      # load fits data
+        image = image.astype(self.ndtype)
         image_min = image.min()
         image = image - image_min * (1 - np.sign(image_min) * 0.001)    # parallel the image values
         image = self.rescaler(image)    # rescale the image
@@ -98,7 +100,7 @@ class FindLensTemplate:
 
         return selected_file_list
 
-    def MulFileMatch(self, progress=10):
+    def MulFileMatch(self, progress=10, prefix=2, seperator="_"):
         """
 
         :param image_dir:
@@ -115,7 +117,7 @@ class FindLensTemplate:
         position_dict = {}
 
         file_list = os.listdir(self.image_dir)
-        file_list = self.SelectFiles(file_list)
+        file_list = self.SelectFiles(file_list, prefix=prefix, seperator=seperator)
         dir_len = len(file_list)
 
         if progress!=0:
@@ -150,7 +152,7 @@ class FindLensTemplate:
 
 
 
-        return np.array(position_dict)
+        return position_dict
 
     def MulMethodMatch(self, image, temp, methods=None, isMax=True):
         """

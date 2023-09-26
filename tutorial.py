@@ -31,18 +31,20 @@ LensMatching/
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 """
 Initialize the FindLensTemplate class
-The image directory is "dataset/coadd_DESJ2125-6504"
-THe name of template is "Template.fits"
+The image directory is "dataset/data"
+The images' prefix is "coadd_DESJ2125-6504"
+THe name of template is "coadd_DESJ2125-6504_template.fits"
 """
-coadd_DESJ2125_6504_find = FindLensTemplate("dataset/coadd_DESJ2125-6504",
-                                            "coadd_DESJ2125-6504",
-                                            "dataset/Template/coadd_DESJ2125-6504_template.fits")
+coadd_DESJ2125_6504_find = FindLensTemplate(
+    "dataset/data",  "coadd_DESJ2125-6504",
+    "dataset/Template/coadd_DESJ2125-6504_template.fits"
+)
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 """
 Use the MulFilMathch to obtain the most likely position of the same pattern as Template.
 """
-position = coadd_DESJ2125_6504_find.MulFileMatch()
+position = coadd_DESJ2125_6504_find.MulFileMatch(progress=8, prefix=2)
 
 """
 Print the most likely position in turns.
