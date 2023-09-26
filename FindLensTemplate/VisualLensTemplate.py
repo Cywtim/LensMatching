@@ -45,7 +45,7 @@ class VisualTemp:
         return fig, ax
 
 
-    def ShowPosition(self, cmap="rainbow", dotcolor="red", figsize=(6, 10)):
+    def ShowPosition(self, cmap="rainbow", dotcolor="red", maker="o", figsize=(6, 10)):
 
         file_name_list = list(self.position_dict)
         position_list = list(self.position_dict.values())
@@ -60,7 +60,7 @@ class VisualTemp:
                     image = image[0].data
                     position = position_list[c+self.ncols*r]
                     img = ax[r, c].imshow(image, cmap=cmap)
-                    ax[r, c].scatter(position[1], position[0], color=dotcolor)
+                    ax[r, c].scatter(position[1], position[0], color=dotcolor, maker="o")
                     ax[r, c].set_title(file_name_list[c+self.ncols*r])
 
                 except:
