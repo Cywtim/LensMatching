@@ -18,7 +18,7 @@ class VisualTemp:
         self.figsize = figsize
 
         if self.len > (self.ncols*self.nrows):
-            print("The lens of position dictionary is out of range of subplots.")
+            print("Error, The lens of position dictionary is out of range of subplots.")
             exit()
 
     def ShowSubplots(self, cmap="rainbow", dotcolor="red"):
