@@ -64,7 +64,7 @@ class VisualTemp:
                     ax[r, c].set_title(file_name_list[c+self.ncols*r])
 
                 except:
-                    pass
+                    pass;
         fig.show()
 
         return fig, ax
