@@ -103,13 +103,11 @@ class FindLensTemplate:
     def MulFileMatch(self, progress=10, prefix=2, seperator="_"):
         """
 
-        :param image_dir:
-        :param temp_name:
-        :param args:
-        :param kwargs:
+        :param progress:
+        :param prefix:
+        :param seperator:
         :return:
         """
-
 
         template = fits.open(self.temp_path)[0].data
         template = template.astype(self.ndtype)
@@ -135,7 +133,6 @@ class FindLensTemplate:
                 # the exact output you're looking for:
                 sys.stdout.write(("[%-"+str(dir_len*progress)+"s] %d%% %d/%d")\
                                  % ('='*(file_n+1)*progress, (file_n+1)/(dir_len)*100, file_n+1, dir_len))
-                sys.stdout.write('\n')
                 sys.stdout.flush()
 
         elif progress == 0:

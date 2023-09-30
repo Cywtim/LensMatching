@@ -39,7 +39,7 @@ class VisualTemp:
                     ax[r, c].set_title(file_name_list[c+self.ncols*r])
                     fig.colorbar(img)
                 except:
-                    pass
+                    ax[r,c].axis("off")
         fig.show()
 
         return fig, ax
@@ -64,7 +64,7 @@ class VisualTemp:
                     ax[r, c].set_title(file_name_list[c+self.ncols*r])
 
                 except:
-                    pass;
+                    ax[r,c].axis("off")
         fig.show()
 
         return fig, ax
