@@ -20,7 +20,7 @@ class VisualTemp:
             print("Error, The lens of position dictionary is out of range of subplots.")
             exit()
 
-    def ShowSubplots(self, cmap="rainbow", figsize=(8, 6)):
+    def ShowSubplots(self, cmap="rainbow", figsize=(8, 8)):
 
         file_name_list = list(self.position_dict)
         position_list = list(self.position_dict.values())
@@ -45,7 +45,7 @@ class VisualTemp:
         return fig, ax
 
 
-    def ShowPosition(self, cmap="rainbow", dotcolor="red", maker="o", figsize=(6, 10)):
+    def ShowPosition(self, cmap="rainbow", dotcolor="red", maker="*", size=30, figsize=(6, 8)):
 
         file_name_list = list(self.position_dict)
         position_list = list(self.position_dict.values())
@@ -60,11 +60,12 @@ class VisualTemp:
                     image = image[0].data
                     position = position_list[c+self.ncols*r]
                     img = ax[r, c].imshow(image, cmap=cmap)
-                    ax[r, c].scatter(position[1], position[0], color=dotcolor, maker="o")
+                    ax[r, c].scatter(position[0], position[1],
+                                     c=dotcolor, marker=maker, s=size)
                     ax[r, c].set_title(file_name_list[c+self.ncols*r])
 
                 except:
-                    ax[r,c].axis("off")
+                    ax[r, c].axis("off")
         fig.show()
 
         return fig, ax
